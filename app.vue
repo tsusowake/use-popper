@@ -1,7 +1,5 @@
 <template>
   <NuxtLink to="/">Home</NuxtLink>
-  <NuxtLink to="/sample">Sample</NuxtLink>
-  <NuxtLink to="/table">Table</NuxtLink>
 
   <div class="page-container">
     <NuxtPage />

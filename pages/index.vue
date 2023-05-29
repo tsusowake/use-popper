@@ -1,134 +1,142 @@
 <template>
   <div class="container">
-    <button class="button" ref="button" @click="toggleTooltip">
-      My Buttonn
-    </button>
-    <div class="tooltip" ref="tooltip" role="tooltip">
-      そんな事より１よ、ちょいと聞いてくれよ。スレとあんま関係ないけどさ。
-      このあいだ、近所の吉野家行ったんです。吉野家。
-      そしたらなんか人がめちゃくちゃいっぱいで座れないんです。
-      で、よく見たらなんか垂れ幕下がってて、１５０円引き、とか書いてあるんです。
-      もうね、アホかと。馬鹿かと。
-      <div class="arrow" ref="arrow" data-popper-arrow></div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th v-for="item of tableContent.headers">{{ item }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row of tableContent.contents">
+            <td>{{ row.no }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.email }}</td>
+            <td class="tooltip-button-column">
+              <div class="tooltip-button">
+                <Tooltip :placement="row.position">
+                  <template v-slot:content>
+                    <button>ボタン</button>
+                  </template>
+                  <template v-slot:tooltip>
+                    <div>
+                      <p>ツールチップコンテンツ1</p>
+                      <p>ツールチップコンテンツ2</p>
+                      <p>ツールチップコンテンツ3</p>
+                    </div>
+                  </template>
+                </Tooltip>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Instance, createPopper } from "@popperjs/core";
-
-type DataType = {
-  show: boolean;
-  popperInstance: null | Instance;
-};
+import Tooltip from "~/components/Tooltip.vue";
 
 export default {
-  data(): DataType {
-    return {
-      show: false,
-      popperInstance: null,
-    };
+  components: { Tooltip },
+  data(): any {
+    return {};
   },
-  methods: {
-    toggleTooltip() {
-      if (this.tooltip.hasAttribute("data-show")) {
-        this.tooltip.removeAttribute("data-show");
-      } else {
-        this.tooltip.setAttribute("data-show", "");
-        this.popperInstance?.update();
-      }
+  computed: {
+    tableContent(): any {
+      return {
+        headers: ["No.", "Name", "Email", "Other"],
+        contents: [
+          { no: 1, name: "Name1", email: "email1@email.com", position: "top" },
+          { no: 2, name: "Name2", email: "email2@email.com", position: "left" },
+          {
+            no: 3,
+            name: "Name3",
+            email: "email3@email.com",
+            position: "bottom",
+          },
+          {
+            no: 4,
+            name: "Name4",
+            email: "email4@email.com",
+            position: "right",
+          },
+          {
+            no: 5,
+            name: "Name5",
+            email: "email5@email.com",
+            position: "top-start",
+          },
+          {
+            no: 6,
+            name: "Name6",
+            email: "email6@email.com",
+            position: "top-end",
+          },
+          {
+            no: 7,
+            name: "Name7",
+            email: "email7@email.com",
+            position: "bottom-start",
+          },
+          {
+            no: 8,
+            name: "Name8",
+            email: "email8@email.com",
+            position: "bottom-end",
+          },
+          { no: 9, name: "Name9", email: "email9@email.com", position: "top" },
+          {
+            no: 10,
+            name: "Name10",
+            email: "email10@email.com",
+            position: "top",
+          },
+        ],
+      };
     },
   },
-  setup() {
-    const button = ref();
-    const tooltip = ref();
-
-    return {
-      button,
-      tooltip,
-    };
-  },
-  mounted() {
-    this.button;
-    this.popperInstance = createPopper(this.button, this.tooltip, {
-      placement: "bottom",
-      modifiers: [
-        {
-          name: "offset",
-          options: {
-            offset: [0, 8],
-          },
-        },
-      ],
-    });
-  },
+  methods: {},
+  setup() {},
+  mounted() {},
 };
 </script>
 
 <style lang="scss" scoped>
-body {
-  margin: 0;
-  width: 1080px;
-  overflow: scroll;
-}
-
 .container {
-  background-color: #aaa;
-  padding: 250px;
+  padding: 100px;
 
-  .button {
-    width: 400px;
-    height: 400px;
-    border-radius: 10px;
+  .table-container {
+    width: 100%;
+    background-color: #888;
+
+    position: relative;
+    overflow: scroll;
+
+    table {
+      width: 100%;
+      background-color: #ccc;
+
+      text-align: left;
+
+      border-collapse: collapse;
+      border: dashed 1px;
+
+      th,
+      td {
+        padding: 8px 12px;
+        border: solid 1px;
+        border-color: #999;
+      }
+
+      .tooltip-button-column {
+        text-align: center;
+        .tooltip-button {
+          display: inline-block;
+        }
+      }
+    }
   }
-
-  .tooltip {
-    display: none;
-    background: #fff;
-    color: #643045;
-    font-weight: bold;
-    padding: 10px;
-    font-size: 13px;
-    border-radius: 4px;
-
-    max-width: 300px;
-  }
-  .tooltip[data-show] {
-    display: block;
-  }
-}
-
-.arrow,
-.arrow::before {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: inherit;
-}
-
-.arrow {
-  visibility: hidden;
-}
-
-.arrow::before {
-  visibility: visible;
-  content: "";
-  transform: rotate(45deg);
-}
-
-.tooltip[data-popper-placement^="top"] > .arrow {
-  bottom: -4px;
-}
-
-.tooltip[data-popper-placement^="bottom"] > .arrow {
-  top: -4px;
-}
-
-.tooltip[data-popper-placement^="left"] > .arrow {
-  right: -4px;
-}
-
-.tooltip[data-popper-placement^="right"] > .arrow {
-  left: -4px;
 }
 </style>
