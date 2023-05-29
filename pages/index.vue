@@ -22,7 +22,6 @@
                     <div>
                       <p>ツールチップコンテンツ1</p>
                       <p>ツールチップコンテンツ2</p>
-                      <p>ツールチップコンテンツ3</p>
                     </div>
                   </template>
                 </Tooltip>
@@ -108,6 +107,7 @@ export default {
   padding: 100px;
 
   .table-container {
+    max-height: calc(100vh - 150px);
     width: 100%;
     background-color: #888;
 
