@@ -1,7 +1,11 @@
 <template>
   <NuxtLink to="/">Home</NuxtLink>
   <NuxtLink to="/sample">Sample</NuxtLink>
-  <NuxtPage />
+  <NuxtLink to="/table">Table</NuxtLink>
+
+  <div class="page-container">
+    <NuxtPage />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -13,5 +17,9 @@ body {
   margin: 0;
   width: 1080px;
   overflow: scroll;
+}
+
+.page-container {
+  background-color: #aaa;
 }
 </style>

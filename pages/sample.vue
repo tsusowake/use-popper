@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     toggleTooltip() {
-      console.log("start: toggleTooltip...");
       if (this.tooltip.hasAttribute("data-show")) {
         this.tooltip.removeAttribute("data-show");
       } else {
@@ -64,7 +63,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body {
   margin: 0;
   width: 1080px;
