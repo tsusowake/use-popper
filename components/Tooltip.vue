@@ -12,14 +12,11 @@
 
 <script lang="ts">
 import { Instance, Placement, createPopper } from "@popperjs/core";
+import { PropType } from "vue";
 
 type DataType = {
   show: boolean;
   popperInstance: null | Instance;
-};
-
-type Props = {
-  placement: Placement;
 };
 
 export default {
@@ -27,6 +24,10 @@ export default {
     placement: {
       type: String,
       default: "top",
+    },
+    boundaryElement: {
+      type: Object as PropType<Element | null>,
+      default: null,
     },
   },
   data(): DataType {
@@ -55,7 +56,11 @@ export default {
     };
   },
   mounted() {
-    this.content;
+    const containerElement = document.querySelector(".container");
+    console.group("Tooltip.vue#mounted...");
+    console.log("containerElement: ", containerElement);
+    console.groupEnd();
+
     this.popperInstance = createPopper(this.content, this.tooltip, {
       placement: this.placement as Placement,
       modifiers: [
@@ -63,6 +68,12 @@ export default {
           name: "offset",
           options: {
             offset: [0, 8],
+          },
+        },
+        {
+          name: "preventOverflow",
+          options: {
+            boundary: containerElement,
           },
         },
       ],

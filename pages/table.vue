@@ -36,18 +36,16 @@
 </template>
 
 <script lang="ts">
-import { Instance, createPopper } from "@popperjs/core";
 import Tooltip from "~/components/Tooltip.vue";
-
-type DataType = {
-  tableContent: any;
-};
 
 export default {
   components: { Tooltip },
-  data(): DataType {
-    return {
-      tableContent: {
+  data(): any {
+    return {};
+  },
+  computed: {
+    tableContent(): any {
+      return {
         headers: ["No.", "Name", "Email", "Other"],
         contents: [
           { no: 1, name: "Name1", email: "email1@email.com", position: "top" },
@@ -96,8 +94,8 @@ export default {
             position: "top",
           },
         ],
-      },
-    };
+      };
+    },
   },
   methods: {},
   setup() {},
