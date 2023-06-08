@@ -56,13 +56,14 @@ export default {
     };
   },
   mounted() {
-    const containerElement = document.querySelector(".container");
+    const containerElement = document.querySelector("body");
     console.group("Tooltip.vue#mounted...");
     console.log("containerElement: ", containerElement);
     console.groupEnd();
 
     this.popperInstance = createPopper(this.content, this.tooltip, {
       placement: this.placement as Placement,
+      strategy: "fixed",
       modifiers: [
         {
           name: "offset",
